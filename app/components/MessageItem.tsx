@@ -5,6 +5,7 @@ import remarkGfm from "remark-gfm";
 import { Message as AIMessage } from "ai";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { FC, AnchorHTMLAttributes } from "react";
+import { text } from "stream/consumers";
 
 type Props = {
   message: AIMessage;
@@ -41,9 +42,23 @@ const CustomLink: FC<AnchorHTMLAttributes<HTMLAnchorElement>> = ({
   // Detect `ghc-suggestion` links by checking the href pattern.
   if (href && href.startsWith("#suggestion-")) {
     return (
-      <a href={href} style={{ color: "blue", fontWeight: "bold" }} {...rest}>
-        {children}
-      </a>
+      <Box
+        as="a"
+        sx={{
+          borderColor: "border.default",
+          borderWidth: 1,
+          borderStyle: "solid",
+          textDecoration: "none",
+          padding: 2,
+          fontSize: 1,
+          borderRadius: 2,
+          color: "fg.default",
+        }}
+        href={href}
+        {...rest}
+      >
+        Create repository
+      </Box>
     );
   }
   // Default link handling
