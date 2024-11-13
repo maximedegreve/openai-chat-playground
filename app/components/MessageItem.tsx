@@ -1,5 +1,6 @@
 import { CopilotIcon } from "@primer/octicons-react";
-import { Avatar, Spinner, Box, Text } from "@primer/react";
+import { Avatar, Box, Text } from "@primer/react";
+import { RepoIcon } from "@primer/octicons-react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Message as AIMessage } from "ai";
@@ -49,14 +50,25 @@ const CustomLink: FC<AnchorHTMLAttributes<HTMLAnchorElement>> = ({
           borderWidth: 1,
           borderStyle: "solid",
           textDecoration: "none",
-          padding: 2,
+          px: "12px",
+          py: 2,
           fontSize: 1,
           borderRadius: 2,
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 2,
           color: "fg.default",
+          boxShadow: "shadow.small",
+          fontFamily: "normal",
+          ":hover": { bg: "canvas.subtle" },
+          svg: {
+            color: "fg.muted",
+          },
         }}
         href={href}
         {...rest}
       >
+        <RepoIcon size={16} />
         Create repository
       </Box>
     );
