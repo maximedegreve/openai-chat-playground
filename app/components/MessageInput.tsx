@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { Spinner, IconButton, Box, Textarea } from "@primer/react";
 import {
   StopIcon,

@@ -68,26 +68,47 @@ export default function Message({ message }: Props) {
           remarkPlugins={[remarkGfm]}
           className="markdownContainer"
           components={{
+            div({ node, ...props }) {
+              if (
+                !node ||
+                !node.properties ||
+                typeof node.properties.suggestion !== "string"
+              ) {
+                return <div {...props} />;
+              }
+              const suggestionMatch = /suggestion="([^"]+)"/.exec(
+                node.properties.suggestion
+              );
+              const suggestion = suggestionMatch ? suggestionMatch[1] : null;
+
+              if (suggestion) {
+                return <Box>Suggestion: {suggestion}</Box>;
+              }
+
+              return <div {...props} />;
+            },
             code(props) {
               const { children, className, node, ...rest } = props;
-              const match = /language-(\w+)/.exec(className || "");
-              if (!match) {
-                return (
-                  <code {...rest} className={className}>
-                    {children}
-                  </code>
-                );
-              }
-              switch (match[1]) {
-                default:
+
+              const matchCodeLanguage = /language-(\w+)/.exec(className || "");
+
+              switch (matchCodeLanguage) {
+                case matchCodeLanguage && matchCodeLanguage[1] !== null:
                   return (
                     <SyntaxHighlighter
                       {...(rest as any)}
+                      language={matchCodeLanguage && matchCodeLanguage[1]}
                       PreTag="div"
-                      $props={{}}
                       children={String(children).replace(/\n$/, "")}
-                      language={match[1]}
+                      {...rest}
                     />
+                  );
+
+                default:
+                  return (
+                    <code {...rest} className={className}>
+                      {children}
+                    </code>
                   );
               }
             },
