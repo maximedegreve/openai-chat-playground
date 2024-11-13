@@ -4,6 +4,7 @@ import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Message as AIMessage } from "ai";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { FC, AnchorHTMLAttributes } from "react";
 
 type Props = {
   message: AIMessage;
@@ -31,6 +32,27 @@ function CopilotAvatar() {
     </Box>
   );
 }
+
+const CustomLink: FC<AnchorHTMLAttributes<HTMLAnchorElement>> = ({
+  href,
+  children,
+  ...rest
+}) => {
+  // Detect `ghc-suggestion` links by checking the href pattern.
+  if (href && href.startsWith("#suggestion-")) {
+    return (
+      <a href={href} style={{ color: "blue", fontWeight: "bold" }} {...rest}>
+        {children}
+      </a>
+    );
+  }
+  // Default link handling
+  return (
+    <a href={href} {...rest}>
+      {children}
+    </a>
+  );
+};
 
 export default function Message({ message }: Props) {
   const { content, role } = message;
@@ -68,25 +90,7 @@ export default function Message({ message }: Props) {
           remarkPlugins={[remarkGfm]}
           className="markdownContainer"
           components={{
-            div({ node, ...props }) {
-              if (
-                !node ||
-                !node.properties ||
-                typeof node.properties.suggestion !== "string"
-              ) {
-                return <div {...props} />;
-              }
-              const suggestionMatch = /suggestion="([^"]+)"/.exec(
-                node.properties.suggestion
-              );
-              const suggestion = suggestionMatch ? suggestionMatch[1] : null;
-
-              if (suggestion) {
-                return <Box>Suggestion: {suggestion}</Box>;
-              }
-
-              return <div {...props} />;
-            },
+            a: CustomLink,
             code(props) {
               const { children, className, node, ...rest } = props;
 

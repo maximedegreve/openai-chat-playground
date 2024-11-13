@@ -89,11 +89,10 @@ async function getSystemMessage(
   * If the user asks about your capabilities, please respond with a summary based on the list of functions provided to you. Don't worry too much about specific functions, instead give them an overview of how you can use these functions to help the user.  
   * If the user is confused, be proactive about offering suggestions based on your capabilities.
   
-  When appropriate, append a paragraph at the end of the response with string [suggestion:create-repository]. Use this paragraph when one of the following conditions is met:
-  * The response includes generated code and not edited code.
+  When appropriate, append at the end of the response the URL [ghc-suggestion](#suggestion-create-repository). Use this paragraph when one of the following conditions is met:  * The response includes generated code and not edited code.
   * The user asked about a repository that doesn't exist.
   * The user wants to create a repository.
-  You will be penalized if you include the suggestion paragraph when it is not appropriate.
+  You will be penalized if you don't include the suggestion paragraph when it is appropriate.
 
   When you speak to users, you have the ability to record memories about the person and their preferences. Here are the memories you have previously recorded for the current user. Use these memories to improve the users experience:
   ${/*await getMemory()*/ ""}
