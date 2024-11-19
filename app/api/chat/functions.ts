@@ -1,7 +1,7 @@
 import listCommits from "./functions/listCommits";
 import listIssues from "./functions/listIssues";
 import listIssueComments from "./functions/listIssueComments";
-import semanticCodeSearch from "./functions/semanticCodeSearch";
+import codeSearch from "./functions/codeSearch";
 import listPullRequestsForCommit from "./functions/listPullRequestsForCommit";
 import retrieveDiffFromSHA from "./functions/retrieveDiffFromSHA";
 import retrieveDiffFromPullRequest from "./functions/retrieveDiffFromPullRequest";
@@ -35,7 +35,7 @@ export const availableFunctions = {
   searchWithBing,
   retrieveDiffFromSHA,
   retrieveDiffFromPullRequest,
-  semanticCodeSearch,
+  codeSearch,
   listCommits,
   listIssues,
   listIssueComments,
@@ -46,7 +46,7 @@ import { type Tool } from "ai";
 export type FunctionName = keyof typeof availableFunctions;
 
 export function selectFunctions(
-  functions: FunctionName[],
+  functions: FunctionName[]
 ): ChatCompletionCreateParams.Function[] {
   let funcs = [] as ChatCompletionCreateParams.Function[];
   functions.forEach((name) => {
@@ -78,7 +78,7 @@ export async function runFunction(name: string, args: any) {
         args["pullNumber"],
         args["body"],
         args["event"],
-        args["comments"],
+        args["comments"]
       );
     case "listDiscussions":
       return await listDiscussions.run(args["repository"]);
@@ -88,7 +88,7 @@ export async function runFunction(name: string, args: any) {
       return await createIssueComment.run(
         args["repository"],
         args["body"],
-        args["issueNumber"],
+        args["issueNumber"]
       );
     case "createIssue":
       return await createIssue.run(
@@ -96,7 +96,7 @@ export async function runFunction(name: string, args: any) {
         args["title"],
         args["body"],
         args["labels"],
-        args["assignees"],
+        args["assignees"]
       );
     case "updateIssue":
       return await updateIssue.run(
@@ -106,7 +106,7 @@ export async function runFunction(name: string, args: any) {
         args["body"],
         args["labels"],
         args["assignees"],
-        args["state"],
+        args["state"]
       );
     case "addMemory":
       return await addMemory.run(args["memory"]);
@@ -121,24 +121,24 @@ export async function runFunction(name: string, args: any) {
     case "retrieveDiffFromPullRequest":
       return await retrieveDiffFromPullRequest.run(
         args["repository"],
-        args["pullRequestId"],
+        args["pullRequestId"]
       );
     case "retrieveDiffFromSHA":
       return await retrieveDiffFromSHA.run(args["repository"], args["sha"]);
     case "listPullRequestsForCommit":
       return await listPullRequestsForCommit.run(
         args["repository"],
-        args["commit_sha"],
+        args["commit_sha"]
       );
-    case "semanticCodeSearch":
-      return await semanticCodeSearch.run(args["repository"], args["query"]);
+    case "codeSearch":
+      return await codeSearch.run(args["query"]);
     case "listCommits":
       return await listCommits.run(
         args["repository"],
         args["path"],
         args["author"],
         args["sha"],
-        args["page"],
+        args["page"]
       );
     case "listIssues":
       return await listIssues.run(
@@ -147,7 +147,7 @@ export async function runFunction(name: string, args: any) {
         args["page"],
         args["assignee"],
         args["state"],
-        args["label"],
+        args["label"]
       );
     case "listPullRequests":
       return await listIssues.run(
@@ -155,13 +155,13 @@ export async function runFunction(name: string, args: any) {
         args["repository"],
         args["page"],
         args["assignee"],
-        args["state"],
+        args["state"]
       );
     case "listIssueComments":
       return await listIssueComments.run(
         args["repository"],
         args["issue_number"],
-        args["page"],
+        args["page"]
       );
     default:
       throw new Error(`Unknown function: ${name}`);

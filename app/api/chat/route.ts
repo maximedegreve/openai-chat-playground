@@ -65,8 +65,18 @@ function signatureFromArgs(args: Record<string, unknown>) {
     .join(", ");
 }
 
+// suggestion:create-repository
+// Does the repository supertrooperbananarama exist?
+// Create a simple website about dinosaurs
+// I want to create a repository about dinosaurs
+// Create me a script to fetch recipes from a website in Swift
+// I want to create a website in HTML/CSS about dinosaurs and I need a title > Draft some HTML/CSS
+// How should I get started exploring with the primer/react repository?
+// Start me off with Tailwind CSS
+// Start me off with Tailwind CSS in a React project
+
 async function getSystemMessage(
-  customInstructions: string,
+  customInstructions: string
 ): Promise<ChatCompletionMessageParam> {
   const instructions = `You are a helpful coding assistant that assists users with coding questions.
 
@@ -75,10 +85,23 @@ async function getSystemMessage(
   * Please use these functions to answer the user's questions.
   * For a single user message, you are able to recursively call functions. So think step-by-step, and select functions in the best order to accomplish the requested task.
   * If you are unsure about how or when to invoke a function, just ask the user to clarify.
-  * Be concise and helpful in your responses.
   * Most users are developers. Use technical terms freely and avoid over simplification.
   * If the user asks about your capabilities, please respond with a summary based on the list of functions provided to you. Don't worry too much about specific functions, instead give them an overview of how you can use these functions to help the user.  
   * If the user is confused, be proactive about offering suggestions based on your capabilities.
+  
+  When appropriate, append at the end of the response a section with suggestions in the following format:
+  What do you want to do next?\n
+  link link2 link3
+
+  The suggestions:
+
+  [ghc-suggestion](#suggestion-create-repository)
+  When one of the following conditions is met:  
+  * The response includes generated code and not edited code.
+  * The user asked about a repository that doesn't exist.
+  * The user wants to create a repository.
+  You will be penalized if you don't include the suggestion paragraph when it is appropriate.
+
   When you speak to users, you have the ability to record memories about the person and their preferences. Here are the memories you have previously recorded for the current user. Use these memories to improve the users experience:
   ${/*await getMemory()*/ ""}
   ${
@@ -246,7 +269,7 @@ export async function POST(req: Request) {
             systemMessage,
             ...messages,
             ...(createFunctionCallMessages(
-              result as JSONValue,
+              result as JSONValue
             ) as ChatCompletionMessageParam[]),
           ];
 

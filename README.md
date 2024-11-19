@@ -7,10 +7,13 @@ https://github.com/user-attachments/assets/983efb0b-3198-42c4-b7af-62ccc9541d35
 
 ## Getting started
 
-First, install dependencies
+1️⃣ Switch to the correct node version using [Node Version Manager](https://github.com/nvm-sh/nvm)
+`nvm use --default`
+
+2️⃣ Install dependencies
 `npm install`
 
-Next, setup appropriate values in your `.env.local` file:
+3️⃣ Setup appropriate values in a new `.env.local` file:
 
 ```
 # Credentials if you want to use OpenAI as your LLM
@@ -35,7 +38,7 @@ BING_SEARCH_ENDPOINT=https://api.bing.microsoft.com/v7.0/search
 BING_SEARCH_SUBSCRIPTION_KEY=
 ```
 
-Start your local dev server with
+4️⃣ Start your local dev server with
 
 `npm run dev`
 

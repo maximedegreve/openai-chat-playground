@@ -1,5 +1,4 @@
 import type { ChatCompletionCreateParams } from "openai/resources/chat";
-import { retrieveDiffContents } from "@/app/utils/github";
 const meta: ChatCompletionCreateParams.Function = {
   name: "searchWithBing",
   description: `Performs a Bing web search. Use this function when directly asked or when recent events are necessary to answer the users question.`,

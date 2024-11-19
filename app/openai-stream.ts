@@ -48,7 +48,7 @@ export function signatureFromArgs(args: Record<string, unknown>) {
 }
 
 export async function getSystemMessage(
-  customInstructions: string,
+  customInstructions: string
 ): Promise<ChatCompletionMessageParam> {
   const instructions = `You are a helpful coding assistant that assists users with coding questions.
 
@@ -77,7 +77,7 @@ export async function getSystemMessage(
 
 export function extractFunctionsOrTools(
   settings: SettingsProps,
-  imageUrl?: string,
+  imageUrl?: string
 ) {
   const isAzure = settings.provider === Provider.AZURE;
   const tools = selectTools(settings.tools);
@@ -104,7 +104,7 @@ export async function handleToolCall(
   settings: SettingsProps,
   systemMessage: ChatCompletionMessageParam,
   openai: OpenAI,
-  imageUrl?: string,
+  imageUrl?: string
 ) {
   const promises = call.tools.map(async (tool) => {
     const { name, arguments: args } = tool.func;
@@ -177,7 +177,7 @@ export async function handleFunctionCall(
   settings: SettingsProps,
   systemMessage: ChatCompletionMessageParam,
   openai: OpenAI,
-  imageUrl?: string,
+  imageUrl?: string
 ) {
   const startTime = Date.now();
   const signature = `${name}(${signatureFromArgs(args)})`;
@@ -212,7 +212,7 @@ export async function handleFunctionCall(
     systemMessage,
     ...messages,
     ...(createFunctionCallMessages(
-      result as JSONValue,
+      result as JSONValue
     ) as ChatCompletionMessageParam[]),
   ];
 
@@ -234,7 +234,7 @@ export async function handleFunctionCall(
 export async function createOpenAIStream(
   messages: ChatCompletionMessageParam[],
   settings: SettingsProps,
-  imageUrl?: string,
+  imageUrl?: string
 ) {
   const data = new experimental_StreamData();
   const systemMessage = await getSystemMessage(settings.customInstructions);
@@ -271,7 +271,7 @@ export async function createOpenAIStream(
             settings,
             systemMessage,
             openai,
-            imageUrl,
+            imageUrl
           )
       : undefined,
 
@@ -285,7 +285,7 @@ export async function createOpenAIStream(
             settings,
             systemMessage,
             openai,
-            imageUrl,
+            imageUrl
           )
       : undefined,
     onCompletion(completion) {

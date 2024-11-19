@@ -26,7 +26,7 @@
     "gray-matter": "^4.0.3",
     "langchain": "^0.0.189",
     "next": "13.4.7",
-    "nodegit": "^0.28.0-alpha.21",
+    "nodegit": "^0.28.0-alpha.28",
     "octokit": "2.0.19",
     "openai": "4.26.0",
     "react": "18.3.1",

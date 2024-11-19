@@ -15,7 +15,7 @@ export const headers = {
 
 export async function githubApiRequest<T>(
   endpoint: string,
-  parameters: any,
+  parameters: any
 ): Promise<T> {
   if (!auth) {
     throw new Error("GitHub PAT Not set!");
@@ -37,6 +37,23 @@ export async function searchIssues<T>(q: string, page: number = 1): Promise<T> {
 
   if (!response) {
     throw new Error("Failed to load commits");
+  }
+  return response as T;
+}
+
+export async function searchCode<T>(q: string, page: number = 1): Promise<T> {
+  if (!auth) {
+    throw new Error("GitHub PAT Not set!");
+  }
+
+  const response = await octokit.rest.search.code({
+    q,
+    page,
+    per_page: 25,
+  });
+
+  if (!response) {
+    throw new Error("Failed to load code results");
   }
   return response as T;
 }
@@ -110,7 +127,7 @@ export async function updateIssue({
         issue_number: issueNumber,
         state,
         headers,
-      },
+      }
     );
     if (!response?.status) {
       return new Error("Failed to update issue");
@@ -162,7 +179,7 @@ export async function createPullRequestReview({
         pull_number: pullNumber,
         comments,
         headers,
-      },
+      }
     );
     if (!response?.status) {
       return new Error("Failed to create pull request review");
@@ -199,7 +216,7 @@ export async function createIssue({
         assignees,
         labels,
         headers,
-      },
+      }
     );
     if (!response?.status) {
       return new Error("Failed to create issue");
@@ -238,7 +255,7 @@ export async function createIssueComment({
         issue_number: issueNumber,
         body,
         headers,
-      },
+      }
     );
 
     if (!response?.status) {

@@ -1,9 +1,12 @@
 import { CopilotIcon } from "@primer/octicons-react";
-import { Avatar, Spinner, Box, Text } from "@primer/react";
+import { Avatar, Box, Text } from "@primer/react";
+import { RepoIcon } from "@primer/octicons-react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Message as AIMessage } from "ai";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { FC, AnchorHTMLAttributes } from "react";
+import { text } from "stream/consumers";
 
 type Props = {
   message: AIMessage;
@@ -31,6 +34,52 @@ function CopilotAvatar() {
     </Box>
   );
 }
+
+const CustomLink: FC<AnchorHTMLAttributes<HTMLAnchorElement>> = ({
+  href,
+  children,
+  ...rest
+}) => {
+  // Detect `ghc-suggestion` links by checking the href pattern.
+  if (href && href.startsWith("#suggestion-")) {
+    return (
+      <Box
+        as="a"
+        sx={{
+          borderColor: "border.default",
+          borderWidth: 1,
+          borderStyle: "solid",
+          textDecoration: "none",
+          px: "12px",
+          py: 2,
+          fontSize: 1,
+          borderRadius: 2,
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 2,
+          color: "fg.default",
+          boxShadow: "shadow.small",
+          fontFamily: "normal",
+          ":hover": { bg: "canvas.subtle" },
+          svg: {
+            color: "fg.muted",
+          },
+        }}
+        href={href}
+        {...rest}
+      >
+        <RepoIcon size={16} />
+        Create repository
+      </Box>
+    );
+  }
+  // Default link handling
+  return (
+    <a href={href} {...rest}>
+      {children}
+    </a>
+  );
+};
 
 export default function Message({ message }: Props) {
   const { content, role } = message;
@@ -68,26 +117,29 @@ export default function Message({ message }: Props) {
           remarkPlugins={[remarkGfm]}
           className="markdownContainer"
           components={{
+            a: CustomLink,
             code(props) {
               const { children, className, node, ...rest } = props;
-              const match = /language-(\w+)/.exec(className || "");
-              if (!match) {
-                return (
-                  <code {...rest} className={className}>
-                    {children}
-                  </code>
-                );
-              }
-              switch (match[1]) {
-                default:
+
+              const matchCodeLanguage = /language-(\w+)/.exec(className || "");
+
+              switch (matchCodeLanguage) {
+                case matchCodeLanguage && matchCodeLanguage[1] !== null:
                   return (
                     <SyntaxHighlighter
                       {...(rest as any)}
+                      language={matchCodeLanguage && matchCodeLanguage[1]}
                       PreTag="div"
-                      $props={{}}
                       children={String(children).replace(/\n$/, "")}
-                      language={match[1]}
+                      {...rest}
                     />
+                  );
+
+                default:
+                  return (
+                    <code {...rest} className={className}>
+                      {children}
+                    </code>
                   );
               }
             },

@@ -17,13 +17,13 @@ This is a prototype of OpenAI function calling with GPT 4 Turbo. [The code behin
 ### Try it`;
 
 const examples = [
-  `How can you help me use GitHub?`,
-  `Summarize the last 3 changes to vercel/ai`,
-  `Search for all important files related to the Dialog component on primer/react, then retrieve the last commit for each file, then summarize the diff associated with that commit`,
-  `Summarize comments on the last 3 pull requests to primer/react`,
-  `Search hackernews and summarize sentiment for vercel and their role in AI development. Then look at the first 3 pages of issues in verce/ai and help me prioritize 3 new milestones.`,
-  `Summarize the intent behind pr #4035 in primer/react. If the PR mentions any related issues, fetch those issues to inform your answer.`,
-  `Find the most recent issue in primer/react, then use code search to suggest files related to that issue, then suggest changes to those files that help me get started with the issue you selected.`,
+  `Does the repository supertrooperbananarama exist?`,
+  `Create a simple website about dinosaurs`,
+  `Create me a script to fetch recipes from a website in Swift`,
+  `I want to create a website in HTML/CSS about dinosaurs and I need a title > Draft some HTML/CSS`,
+  "How should I get started exploring with the primer/react repository?",
+  "Start me off with Tailwind CSS",
+  "Start me off with Tailwind CSS in a React project",
 ];
 
 type Props = {
