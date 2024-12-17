@@ -17,7 +17,7 @@ This is a prototype of OpenAI function calling with GPT 4 Turbo. [The code behin
 ### Try it`;
 
 const examples = [
-  `Does the repository supertrooperbananarama exist?`,
+  `Show me the last two issues in facebook/react`,
   `Create a simple website about dinosaurs`,
   `Create me a script to fetch recipes from a website in Swift`,
   `I want to create a website in HTML/CSS about dinosaurs and I need a title > Draft some HTML/CSS`,

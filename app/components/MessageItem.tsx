@@ -82,8 +82,15 @@ const CustomLink: FC<AnchorHTMLAttributes<HTMLAnchorElement>> = ({
 };
 
 export default function Message({ message }: Props) {
-  const { content, role } = message;
+  const { content, role, function_call, tool_calls, data, tool_call_id } = message;
   const title = role == "assistant" ? "Copilot" : "User";
+
+  console.log("RESULT:", content);
+  console.log("ROLE:", role);
+  console.log("FUNCTION CALL:", function_call);
+  console.log("TOOL CALLS:", tool_calls);
+  console.log("DATA:", data);
+  console.log("TOOL CALL ID:", tool_call_id);
   return (
     <Box
       sx={{
@@ -124,17 +131,6 @@ export default function Message({ message }: Props) {
               const matchCodeLanguage = /language-(\w+)/.exec(className || "");
 
               switch (matchCodeLanguage) {
-                case matchCodeLanguage && matchCodeLanguage[1] !== null:
-                  return (
-                    <SyntaxHighlighter
-                      {...(rest as any)}
-                      language={matchCodeLanguage && matchCodeLanguage[1]}
-                      PreTag="div"
-                      children={String(children).replace(/\n$/, "")}
-                      {...rest}
-                    />
-                  );
-
                 default:
                   return (
                     <code {...rest} className={className}>
@@ -142,6 +138,16 @@ export default function Message({ message }: Props) {
                     </code>
                   );
               }
+            },
+            p({ children }) {
+              // Detect and replace listIssues with <Box>Banana</Box>
+              if (
+                typeof children === "string" &&
+                children.includes("listIssues")
+              ) {
+                return <Box>Banana</Box>;
+              }
+              return <p>{children}</p>;
             },
           }}
         >

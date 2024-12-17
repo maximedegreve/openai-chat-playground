@@ -140,7 +140,7 @@ export default function Chat() {
           }}
         >
           {messages.length ? (
-            <MessageList messages={messages} />
+            <MessageList messages={messages} data={data} />
           ) : (
             <Intro appendMessage={appendMessage} />
           )}
